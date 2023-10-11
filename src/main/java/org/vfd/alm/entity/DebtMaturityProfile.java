@@ -26,5 +26,4 @@ public class DebtMaturityProfile {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    // Getters, setters, and other boilerplate
 }

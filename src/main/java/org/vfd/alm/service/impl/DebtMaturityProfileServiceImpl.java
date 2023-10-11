@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.vfd.alm.dto.DebtMaturityResponseDTO;
 import org.vfd.alm.entity.*;
 import org.vfd.alm.repository.DebtMaturityProfileRepository;
 import org.vfd.alm.service.*;
@@ -33,11 +34,9 @@ public class DebtMaturityProfileServiceImpl implements DebtMaturityProfileServic
 
     @Transactional
     @Override
-    public BigDecimal computeAndSaveDebtMaturityProfileForBucket(String bucket) {
-        // Clearing previous entries for this bucket
+    public DebtMaturityResponseDTO computeAndSaveDebtMaturityProfileForBucket(String bucket) {
         debtMaturityProfileRepository.deleteByBucket(bucket);
 
-        // Compute profiles for the specific bucket
         BigDecimal totalAmount = BigDecimal.ZERO;
         totalAmount = totalAmount.add(computeForLiabilityReport(bucket));
         totalAmount = totalAmount.add(computeForOverdraftAccount(bucket));
@@ -46,13 +45,12 @@ public class DebtMaturityProfileServiceImpl implements DebtMaturityProfileServic
         totalAmount = totalAmount.add(computeForBondIssued(bucket));
         totalAmount = totalAmount.add(computeForPlacementAsset(bucket));
 
-        // Save to database
         DebtMaturityProfile profile = new DebtMaturityProfile();
         profile.setBucket(bucket);
         profile.setAmount(totalAmount);
         debtMaturityProfileRepository.save(profile);
 
-        return totalAmount;
+        return new DebtMaturityResponseDTO(totalAmount);
     }
 
     private BigDecimal computeForLiabilityReport(String bucket) {
@@ -128,13 +126,12 @@ public class DebtMaturityProfileServiceImpl implements DebtMaturityProfileServic
 
     @Override
     public Pair<Long, Long> determineDaysRangeForBucket(String bucket) {
-        // If the bucket is a single number:
-        if (bucket.matches("\\d+")) { // Regular expression to match a number
+        if (bucket.matches("\\d+")) {
             long day = Long.parseLong(bucket);
             return Pair.of(day, day);
         }
-        // If the bucket is a range:
-        else if (bucket.matches("\\d+-\\d+ days")) { // Regular expression to match patterns like "7-14 days"
+
+        else if (bucket.matches("\\d+-\\d+")) {
             String[] parts = bucket.split("-");
             long startDay = Long.parseLong(parts[0].trim());
             long endDay = Long.parseLong(parts[1].split(" ")[0].trim());
