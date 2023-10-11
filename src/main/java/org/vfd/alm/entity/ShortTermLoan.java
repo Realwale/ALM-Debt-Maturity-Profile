@@ -45,5 +45,4 @@ public class ShortTermLoan {
     @Column(name = "maturity_date")
     private LocalDate maturityDate;
 
-    // Getters, setters, and other boilerplate
 }

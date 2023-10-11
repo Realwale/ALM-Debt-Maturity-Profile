@@ -38,7 +38,6 @@ public class OverdraftAccountController {
 
     @PutMapping("/{id}")
     public ResponseEntity<OverdraftAccount> updateOverdraftAccount(@PathVariable Long id, @RequestBody OverdraftAccount overdraftAccount) {
-        // Logic to check the existence of the account before updating can be added
         return new ResponseEntity<>(overdraftAccountService.saveOrUpdateOverdraftAccount(overdraftAccount), HttpStatus.OK);
     }
 

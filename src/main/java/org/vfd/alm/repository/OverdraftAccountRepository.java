@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface OverdraftAccountRepository extends JpaRepository<OverdraftAccount, Long> {
     List<OverdraftAccount> findAllByRecyclingDateBetween(LocalDate startDate, LocalDate endDate);
-    // Custom queries here if needed
 }

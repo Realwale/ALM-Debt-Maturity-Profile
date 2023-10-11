@@ -42,5 +42,4 @@ public class CommercialPaper {
     @Column(name = "maturity_date")
     private LocalDate maturityDate;
 
-    // Getters, setters, and other boilerplate
 }

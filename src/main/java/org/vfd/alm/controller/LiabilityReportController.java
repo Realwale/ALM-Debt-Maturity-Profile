@@ -38,7 +38,6 @@ public class LiabilityReportController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LiabilityReport> updateLiabilityReport(@PathVariable Long id, @RequestBody LiabilityReport liabilityReport) {
-        // This could include additional logic such as checking if the report exists before updating
         return new ResponseEntity<>(liabilityReportService.saveOrUpdateLiabilityReport(liabilityReport), HttpStatus.OK);
     }
 

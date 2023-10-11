@@ -45,5 +45,4 @@ public class OverdraftAccount {
     @Column(name = "recycling_date")
     private LocalDate recyclingDate;
 
-    // Getters, setters, and other boilerplate
 }

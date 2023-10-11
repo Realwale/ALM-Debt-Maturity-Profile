@@ -36,5 +36,4 @@ public class PlacementAsset {
     @Column(name = "rate")
     private BigDecimal rate;
 
-    // Getters, setters, and other boilerplate
 }
